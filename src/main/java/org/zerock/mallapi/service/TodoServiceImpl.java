@@ -32,26 +32,35 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Long register(TodoDTO todoDTO) {
         log.info(".........");
+
         Todo todo = modelMapper.map(todoDTO, Todo.class);
+
         Todo savedTodo = todoRepository.save(todo);
+
         return savedTodo.getTno();
     }
 
     @Override
     public TodoDTO get(Long tno) {
-        Optional<Todo> result = todoRepository.findById(tno);
+        java.util.Optional<Todo> result = todoRepository.findById(tno);
+
         Todo todo = result.orElseThrow();
+
         TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
+
         return dto;
     }
 
     @Override
     public void modify(TodoDTO todoDTO) {
         Optional<Todo> result = todoRepository.findById(todoDTO.getTno());
+
         Todo todo = result.orElseThrow();
+
         todo.changeTitle(todoDTO.getTitle());
         todo.changeDueDate(todoDTO.getDueDate());
         todo.changeComplete(todoDTO.isComplete());
+
         todoRepository.save(todo);
     }
 
@@ -66,16 +75,21 @@ public class TodoServiceImpl implements TodoService {
                 pageRequestDTO.getPage() - 1, // 1페이지가 0이므로 주의
                 pageRequestDTO.getSize(),
                 Sort.by("tno").descending());
+
         Page<Todo> result = todoRepository.findAll(pageable);
+
         List<TodoDTO> dtoList = result.getContent().stream()
                 .map(todo -> modelMapper.map(todo, TodoDTO.class))
                 .collect(Collectors.toList());
+
         long totalCount = result.getTotalElements();
+
         PageResponseDTO<TodoDTO> responseDTO = PageResponseDTO.<TodoDTO>withAll()
                 .dtoList(dtoList)
                 .pageRequestDTO(pageRequestDTO)
                 .totalCount(totalCount)
                 .build();
+
         return responseDTO;
     }
 }

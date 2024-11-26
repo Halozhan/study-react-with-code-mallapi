@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomControllerAdvice {
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<?> notExist(NoSuchElementException e) {
+
         String msg = e.getMessage();
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("msg", msg));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> handleIllegalArgumentException(MethodArgumentNotValidException e) {
+
         String msg = e.getMessage();
+
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Map.of("msg", msg));
     }
 }

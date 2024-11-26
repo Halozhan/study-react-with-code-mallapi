@@ -5,7 +5,7 @@ import org.zerock.mallapi.dto.PageResponseDTO;
 import org.zerock.mallapi.dto.TodoDTO;
 
 public interface TodoService {
-    Long register(TodoDTO TodoDTO);
+    Long register(TodoDTO todoDTO);
 
     TodoDTO get(Long tno);
 
