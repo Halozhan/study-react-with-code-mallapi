@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +29,14 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequestMapping("/api/products")
 public class ProductController {
+
     private final ProductService productService; // ProductServcie 주입
     private final CustomFileUtil fileUtil;
 
     @PostMapping("/")
     public Map<String, Long> register(ProductDTO productDTO) {
 
-        log.info("register: " + productDTO);
+        log.info("rgister: " + productDTO);
 
         List<MultipartFile> files = productDTO.getFiles();
 
@@ -46,6 +48,13 @@ public class ProductController {
 
         // 서비스 호출
         Long pno = productService.register(productDTO);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return Map.of("result", pno);
     }
@@ -73,10 +82,18 @@ public class ProductController {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')") // 임시로 권한 설정
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
 
         log.info("list............." + pageRequestDTO);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return productService.getList(pageRequestDTO);
 
@@ -84,6 +101,13 @@ public class ProductController {
 
     @GetMapping("/{pno}")
     public ProductDTO read(@PathVariable(name = "pno") Long pno) {
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return productService.get(pno);
     }
@@ -143,4 +167,5 @@ public class ProductController {
         return Map.of("RESULT", "SUCCESS");
 
     }
+
 }

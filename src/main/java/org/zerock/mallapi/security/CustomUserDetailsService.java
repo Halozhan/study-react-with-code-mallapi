@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * CustomUSrDetailsService
+ * CustomUSerDetailsService
  */
 @Service
 @Log4j2

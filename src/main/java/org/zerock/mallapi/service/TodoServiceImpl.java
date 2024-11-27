@@ -25,12 +25,15 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor // 생성자 자동 주입
 public class TodoServiceImpl implements TodoService {
+
     // 자동주입 대상은 final로
     private final ModelMapper modelMapper;
+
     private final TodoRepository todoRepository;
 
     @Override
     public Long register(TodoDTO todoDTO) {
+
         log.info(".........");
 
         Todo todo = modelMapper.map(todoDTO, Todo.class);
@@ -38,10 +41,12 @@ public class TodoServiceImpl implements TodoService {
         Todo savedTodo = todoRepository.save(todo);
 
         return savedTodo.getTno();
+
     }
 
     @Override
     public TodoDTO get(Long tno) {
+
         java.util.Optional<Todo> result = todoRepository.findById(tno);
 
         Todo todo = result.orElseThrow();
@@ -53,6 +58,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void modify(TodoDTO todoDTO) {
+
         Optional<Todo> result = todoRepository.findById(todoDTO.getTno());
 
         Todo todo = result.orElseThrow();
@@ -62,15 +68,19 @@ public class TodoServiceImpl implements TodoService {
         todo.changeComplete(todoDTO.isComplete());
 
         todoRepository.save(todo);
+
     }
 
     @Override
     public void remove(Long tno) {
+
         todoRepository.deleteById(tno);
+
     }
 
     @Override
     public PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO) {
+
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1, // 1페이지가 0이므로 주의
                 pageRequestDTO.getSize(),
@@ -92,4 +102,5 @@ public class TodoServiceImpl implements TodoService {
 
         return responseDTO;
     }
+
 }

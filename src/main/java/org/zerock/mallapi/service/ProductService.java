@@ -7,6 +7,7 @@ import org.zerock.mallapi.dto.ProductDTO;
 
 @Transactional
 public interface ProductService {
+
     PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO);
 
     Long register(ProductDTO productDTO);
@@ -16,4 +17,5 @@ public interface ProductService {
     void modify(ProductDTO productDTO);
 
     void remove(Long pno);
+
 }

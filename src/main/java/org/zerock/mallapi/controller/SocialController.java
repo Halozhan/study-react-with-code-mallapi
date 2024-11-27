@@ -18,10 +18,12 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class SocialController {
+
     private final MemberService memberService;
 
     @GetMapping("/api/member/kakao")
     public Map<String, Object> getMemberFromKakao(String accessToken) {
+
         log.info("access Token ");
         log.info(accessToken);
 
@@ -48,4 +50,5 @@ public class SocialController {
         return Map.of("result", "modified");
 
     }
+
 }

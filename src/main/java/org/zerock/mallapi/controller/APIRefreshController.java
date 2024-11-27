@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class APIRefreshController {
+
     @RequestMapping("/api/member/refresh")
     public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader, String refreshToken) {
 
@@ -74,4 +75,5 @@ public class APIRefreshController {
         }
         return false;
     }
+
 }

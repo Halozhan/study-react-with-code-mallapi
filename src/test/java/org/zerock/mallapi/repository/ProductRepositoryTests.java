@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 @SpringBootTest
 @Log4j2
 public class ProductRepositoryTests {
+
     @Autowired
     ProductRepository productRepository;
 
@@ -47,6 +48,7 @@ public class ProductRepositoryTests {
     @Transactional
     @Test
     public void testRead() {
+
         Long pno = 1L;
 
         Optional<Product> result = productRepository.findById(pno);
@@ -55,6 +57,7 @@ public class ProductRepositoryTests {
 
         log.info(product); // --------- 1
         log.info(product.getImageList()); // ---------------------2
+
     }
 
     @Test
@@ -68,18 +71,23 @@ public class ProductRepositoryTests {
 
         log.info(product);
         log.info(product.getImageList());
+
     }
 
     @Commit
     @Transactional
     @Test
-    public void testDelete() {
+    public void testDelte() {
+
         Long pno = 2L;
+
         productRepository.updateToDelete(pno, true);
+
     }
 
     @Test
     public void testUpdate() {
+
         Long pno = 10L;
 
         Product product = productRepository.selectOne(pno).get();
@@ -96,10 +104,12 @@ public class ProductRepositoryTests {
         product.addImageString(UUID.randomUUID().toString() + "_" + "NEWIMAGE3.jpg");
 
         productRepository.save(product);
+
     }
 
     @Test
     public void testList() {
+
         // org.springframework.data.domain 패키지
         Pageable pageable = PageRequest.of(0, 10, Sort.by("pno").descending());
 
@@ -107,5 +117,7 @@ public class ProductRepositoryTests {
 
         // java.util
         result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
+
     }
+
 }

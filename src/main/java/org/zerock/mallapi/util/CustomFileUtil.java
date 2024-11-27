@@ -26,6 +26,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @Log4j2
 @RequiredArgsConstructor
 public class CustomFileUtil {
+
     @Value("${org.zerock.upload.path}")
     private String uploadPath;
 
@@ -44,6 +45,7 @@ public class CustomFileUtil {
     }
 
     public List<String> saveFiles(List<MultipartFile> files) throws RuntimeException {
+
         if (files == null || files.size() == 0) {
             return null;
         }
@@ -53,6 +55,7 @@ public class CustomFileUtil {
         for (MultipartFile multipartFile : files) {
 
             String savedName = UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
+
             Path savePath = Paths.get(uploadPath, savedName);
 
             try {
@@ -78,6 +81,7 @@ public class CustomFileUtil {
     }
 
     public ResponseEntity<Resource> getFile(String fileName) {
+
         Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
 
         if (!resource.exists()) {
@@ -97,6 +101,7 @@ public class CustomFileUtil {
     }
 
     public void deleteFiles(List<String> fileNames) {
+
         if (fileNames == null || fileNames.size() == 0) {
             return;
         }
@@ -116,4 +121,5 @@ public class CustomFileUtil {
             }
         });
     }
+
 }

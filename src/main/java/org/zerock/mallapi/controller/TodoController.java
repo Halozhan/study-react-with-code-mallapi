@@ -23,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequestMapping("/api/todo")
 public class TodoController {
+
     private final TodoService service;
 
     @GetMapping("/{tno}")
@@ -72,4 +73,5 @@ public class TodoController {
 
         return Map.of("RESULT", "SUCCESS");
     }
+
 }

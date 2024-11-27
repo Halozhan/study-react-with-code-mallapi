@@ -25,20 +25,27 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class MemberServiceImpl implements MemberService {
+
     private final MemberRepository memberRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public MemberDTO getKakaoMember(String accessToken) {
+
         String email = getEmailFromKakaoAccessToken(accessToken);
+
         log.info("email: " + email);
+
         Optional<Member> result = memberRepository.findById(email);
 
         // 기존의 회원
         if (result.isPresent()) {
+
             MemberDTO memberDTO = entityToDTO(result.get());
+
             return memberDTO;
+
         }
 
         // 회원이 아니었다면
@@ -50,28 +57,44 @@ public class MemberServiceImpl implements MemberService {
         MemberDTO memberDTO = entityToDTO(socialMember);
 
         return memberDTO;
+
     }
 
     private String getEmailFromKakaoAccessToken(String accessToken) {
+
         String kakaoGetUserURL = "https://kapi.kakao.com/v2/user/me";
+
         if (accessToken == null) {
             throw new RuntimeException("Access Token is null");
         }
         RestTemplate restTemplate = new RestTemplate();
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-Type", "application/x-www-form-urlencoded");
         HttpEntity<String> entity = new HttpEntity<>(headers);
+
         UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoGetUserURL).build();
-        ResponseEntity<LinkedHashMap> response = restTemplate.exchange(uriBuilder.toString(), HttpMethod.GET, entity,
+
+        ResponseEntity<LinkedHashMap> response = restTemplate.exchange(
+                uriBuilder.toString(),
+                HttpMethod.GET,
+                entity,
                 LinkedHashMap.class);
+
         log.info(response);
+
         LinkedHashMap<String, LinkedHashMap> bodyMap = response.getBody();
+
         log.info("------------------------------------");
         log.info(bodyMap);
+
         LinkedHashMap<String, String> kakaoAccount = bodyMap.get("kakao_account");
+
         log.info("kakaoAccount: " + kakaoAccount);
+
         return kakaoAccount.get("email");
+
     }
 
     private Member makeSocialMember(String email) {
@@ -107,6 +130,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void modifyMember(MemberModifyDTO memberModifyDTO) {
+
         Optional<Member> result = memberRepository.findById(memberModifyDTO.getEmail());
 
         Member member = result.orElseThrow();
@@ -116,5 +140,7 @@ public class MemberServiceImpl implements MemberService {
         member.changeNickname(memberModifyDTO.getNickname());
 
         memberRepository.save(member);
+
     }
+
 }

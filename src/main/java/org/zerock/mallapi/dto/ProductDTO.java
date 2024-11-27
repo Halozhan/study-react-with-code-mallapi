@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
+
     private Long pno;
 
     private String pname;
@@ -30,4 +31,5 @@ public class ProductDTO {
 
     @Builder.Default
     private List<String> uploadFileNames = new ArrayList<>();
+
 }

@@ -21,6 +21,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Todo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tno;
@@ -44,4 +45,5 @@ public class Todo {
     public void changeDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
 }

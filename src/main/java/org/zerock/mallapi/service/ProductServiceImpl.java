@@ -25,10 +25,12 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Transactional
 public class ProductServiceImpl implements ProductService {
+
     private final ProductRepository productRepository;
 
     @Override
     public PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO) {
+
         log.info("getList..............");
 
         Pageable pageable = PageRequest.of(
@@ -67,13 +69,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long register(ProductDTO productDTO) {
+
         Product product = dtoToEntity(productDTO);
+
         Product result = productRepository.save(product);
 
         return result.getPno();
     }
 
     private Product dtoToEntity(ProductDTO productDTO) {
+
         Product product = Product.builder()
                 .pno(productDTO.getPno())
                 .pname(productDTO.getPname())
@@ -110,6 +115,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductDTO entityToDTO(Product product) {
+
         ProductDTO productDTO = ProductDTO.builder()
                 .pno(product.getPno())
                 .pname(product.getPname())
@@ -132,6 +138,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void modify(ProductDTO productDTO) {
+
         // step1 read
         Optional<Product> result = productRepository.findById(productDTO.getPno());
 
@@ -157,6 +164,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void remove(Long pno) {
+
         productRepository.updateToDelete(pno, true);
+
     }
+
 }
